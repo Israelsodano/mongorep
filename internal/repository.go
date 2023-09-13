@@ -3,7 +3,8 @@ package internal
 import (
 	"context"
 	"log"
-	ports "mongorep"
+
+	ports "github.com/Israelsodano/mongorep"
 
 	"reflect"
 	"strings"

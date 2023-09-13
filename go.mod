@@ -1,4 +1,4 @@
-module mongorep
+module github.com/Israelsodano/mongorep
 
 go 1.20
 
