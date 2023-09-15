@@ -174,7 +174,10 @@ func (r *MongoDbRepository[T]) Replace(
 	filter map[string]interface{},
 	entity *T) {
 
-	_, err := r.collection.ReplaceOne(ctx, filter, entity)
+	up := true
+	_, err := r.collection.ReplaceOne(ctx, filter, entity, &options.ReplaceOptions{
+		Upsert: &up,
+	})
 	if err != nil {
 		panic(err)
 	}
