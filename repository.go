@@ -24,7 +24,8 @@ type (
 		GetAllSkipTake(ctx context.Context,
 			filter map[string]interface{},
 			skip int64,
-			take int64) *Pagination[T]
+			take int64,
+			opts ...*options.FindOptions) *Pagination[T]
 		Count(ctx context.Context,
 			filter map[string]interface{}) int64
 		GetFirst(ctx context.Context,
@@ -85,7 +86,8 @@ func (r *MongoDbRepository[T]) GetAllSkipTake(
 	ctx context.Context,
 	filter map[string]interface{},
 	skip int64,
-	take int64) *Pagination[T] {
+	take int64,
+	opts ...*options.FindOptions) *Pagination[T] {
 	ct, err := r.collection.CountDocuments(ctx, filter)
 	if err != nil {
 		panic(err)
@@ -99,7 +101,7 @@ func (r *MongoDbRepository[T]) GetAllSkipTake(
 	if take > 0 {
 		op.SetLimit(take)
 	}
-	cur, err := r.collection.Find(ctx, filter, op)
+	cur, err := r.collection.Find(ctx, filter, append(opts, op)...)
 
 	if err != nil {
 		panic(err)
